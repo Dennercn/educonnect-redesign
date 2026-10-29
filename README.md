@@ -96,9 +96,10 @@ src/
 └── pages/                  # Dashboard, Notas, Disciplinas, Matricula, Perfil, Login
 docs/
 ├── REDESIGN.md             # Processo e justificativas do redesign
-├── screenshots/antes/      # Capturas da versão anterior
+├── antes/                  # Código do projeto original do professor
+├── screenshots/antes/      # Capturas do projeto original
 ├── screenshots/depois/     # Capturas da nova interface (desktop, tablet, smartphone, escuro)
-└── antes/                  # Código-fonte da versão anterior, para referência
+└── versao-intermediaria/   # Registro da versão que existia antes do redesign
 ```
 
 ## Limitações

@@ -2,28 +2,32 @@
 
 Este documento registra as cinco etapas da atividade: análise da interface anterior, planejamento, desenvolvimento, responsividade e interações, e comparação entre o antes e o depois.
 
-> **Sobre o "antes":** as capturas em [`screenshots/antes/`](screenshots/antes) foram geradas a partir da versão que existia neste repositório antes do redesign. Ela já era uma adaptação do EduConnect fornecido pelo professor. O código dessa versão está guardado em [`antes/`](antes) para consulta. Se você tiver capturas do sistema original do professor, adicione-as nessa mesma pasta.
+> **Sobre o "antes":** o "antes" é o **projeto original fornecido pelo professor**. As capturas em [`screenshots/antes/`](screenshots/antes) foram geradas rodando esse projeto sem nenhuma alteração, e o código dele está em [`antes/`](antes). Antes do redesign existiu também uma versão intermediária, com tema escuro e confirmações adicionados ao original. Ela fica registrada em [`versao-intermediaria/`](versao-intermediaria), mas não é usada na comparação.
 
 ---
 
-## Etapa 1: análise da interface anterior
+## Etapa 1: análise da interface original
 
-A análise foi feita lendo o código e usando a interface nas larguras de 390 px (smartphone) e 1440 px (desktop).
+A análise combinou leitura do código com testes automatizados no navegador (Chrome), nas larguras de 360, 390, 768, 1024 e 1440 px. Cada problema abaixo foi **reproduzido**, não apenas deduzido do código.
 
 ### Problemas encontrados
 
-| # | Área | Problema | Impacto para o aluno |
+| # | Área | Problema (verificado) | Impacto para o aluno |
 |---|---|---|---|
-| 1 | Técnico | `npm run build` **falhava** (2 erros de TypeScript) e todo o sistema estava em um único `App.tsx` de 449 linhas, com componentes repetidos | Não era possível publicar; manutenção difícil e visual inconsistente |
-| 2 | Visual | O tema escuro sobrescrevia classes com `!important`. O CSS também definia fundo vermelho (`#f32105`) e barra de rolagem azul, que eram anulados mais abaixo no mesmo arquivo | Cores imprevisíveis e contraste irregular no tema escuro |
-| 3 | Informação | Os dados se contradiziam: notas "Aprovado" em um semestre ainda em andamento, indicadores fixos no código (média 8,7, "24 créditos"), prazos em setembro e o seletor de semestre **só trocava o rótulo** | O aluno não conseguia confiar no que via |
-| 4 | Notas | Mostrava só uma nota por disciplina, sem N1/N2/trabalho, sem frequência e sem explicar como a média é calculada | A pergunta mais comum ("quanto preciso tirar?") ficava sem resposta |
-| 5 | Disciplinas | Não havia visão de grade semanal, e o ícone "⋯" de cada cartão era só decorativo | Difícil planejar a semana; havia um botão aparente que não fazia nada |
-| 6 | Matrícula | Não verificava conflito de horário, pré-requisito nem vagas. Os créditos começavam em 24 fixos, o limite era 40 e o fluxo terminava em um toast | O aluno podia montar uma grade impossível e não recebia comprovante |
-| 7 | Perfil | Uma única mensagem genérica ("Verifique nome, e-mail, telefone e cidade") para qualquer erro, sem indicar o campo e sem máscara | O aluno precisava adivinhar qual campo estava errado |
-| 8 | Navegação | No celular havia um menu lateral e uma barra inferior com 4 itens, **sem Perfil e sem Sair**. Não havia `aria-current`, os menus não fechavam com Esc nem com clique fora, e "Marcar lidas" apenas fechava o painel | Navegação duplicada e incompleta no celular |
-| 9 | Acessibilidade | Muitos textos auxiliares em `slate-400` sobre branco (**2,56:1**, abaixo do mínimo de 4,5:1), sem link para pular ao conteúdo e sem retorno do foco ao fechar os diálogos | Leitura difícil para quem tem baixa visão; uso ruim por teclado |
-| 10 | Navegação | Não havia rotas: atualizar a página sempre voltava ao Dashboard e o botão "voltar" saía do sistema | Comportamento diferente do esperado na web |
+| 1 | Técnico | Em uma instalação limpa, `npm run build` **falha com 522 erros de TypeScript**: o `package.json` não declara `@types/react` e `@types/react-dom`. Todo o sistema fica em um único `App.tsx` de 441 linhas | Não é possível gerar a versão de produção; manutenção difícil e componentes repetidos |
+| 2 | Feedback falso: sair | "Sair do sistema" só mostra o toast "Sessão encerrada com sucesso." O aluno **continua logado** e vendo o menu e os dados | A mensagem afirma algo que não aconteceu; em um computador compartilhado, o aluno acha que saiu |
+| 3 | Feedback falso: matrícula | A tela promete "Você poderá revisar tudo antes de confirmar" e "A confirmação final será exibida na próxima etapa", mas "Continuar matrícula" **finaliza na hora** com "Pré-matrícula realizada com 2 nova(s) disciplina(s)." Não há revisão nem comprovante | O aluno não confere a escolha e não tem como provar que se matriculou |
+| 4 | Feedback falso: perfil | Salvar com **nome vazio e telefone "abc"** mostra "Perfil atualizado com sucesso!". Ao recarregar, as alterações somem. "Alterar foto" só exibe "Seletor de foto aberto." | Dados inválidos são aceitos e o aluno acha que salvou algo que se perdeu |
+| 5 | Informação | Indicadores fixos no código (média 8,7, "6 disciplinas · 24 créditos", frequência 94%). Notas "Aprovado" em um semestre em andamento. O seletor de semestre **não altera nada**: em 2025.2, o Dashboard e as Notas mostram exatamente o mesmo conteúdo | O aluno não pode confiar nos números nem consultar semestres anteriores |
+| 6 | Notas | Só a nota final de cada disciplina: sem N1/N2/trabalho, sem frequência, sem busca e sem explicar o cálculo da média | A pergunta mais comum ("quanto preciso tirar?") fica sem resposta |
+| 7 | Disciplinas | Não há grade semanal. O "⋯" de cada cartão parece um botão, mas é decorativo | Difícil planejar a semana; elemento que parece clicável e não faz nada |
+| 8 | Matrícula | Não verifica conflito de horário, pré-requisito, vagas ou limite de créditos. A soma de créditos começa em 24 fixos | Seria possível montar uma grade impossível |
+| 9 | Navegação (celular) | A barra inferior tem só 4 itens (**sem Perfil e sem Sair**), além de um menu lateral duplicado. O painel de notificações tem largura fixa de 320 px e **sai pela esquerda da tela** em 390 px. Esc não fecha o painel e "Marcar lidas" apenas o fecha. No desktop, o botão "X" de fechar o menu lateral aparece sem função | Perfil e saída escondidos no celular; controles quebrados ou inúteis |
+| 10 | Acessibilidade | **13 textos** só no Dashboard usam `slate-400` sobre branco (**2,56:1**, abaixo do mínimo de 4,5:1). Os toasts não são anunciados (sem `aria-live`). Não há `aria-current` no menu nem link para pular ao conteúdo | Leitura difícil para baixa visão; leitor de tela não informa o resultado das ações |
+| 11 | Visual | O CSS define o fundo da página como **vermelho** (`#f32105`), coberto pelo conteúdo, mas visível na rolagem elástica do celular. A barra de rolagem azul (`#046ff1`) fica fora da paleta índigo. Não há tema escuro | Identidade visual inconsistente |
+| 12 | Navegação | Não há rotas: atualizar a página sempre volta ao Dashboard e o botão "voltar" sai do sistema | Comportamento diferente do esperado na web |
+
+**Ponto positivo do original:** layout em cartões, paleta índigo e ícones Lucide já davam uma boa base. O redesign manteve a ideia, mas corrigiu o comportamento, a hierarquia e a consistência.
 
 ---
 
@@ -167,35 +171,35 @@ Verificação automatizada: nenhuma tela tem rolagem horizontal em **360, 390, 7
 
 ### Matrícula
 
-| Antes | Depois: escolha | Depois: revisão | Depois: comprovante |
-|---|---|---|---|
-| ![](screenshots/antes/desktop-matricula.png) | ![](screenshots/depois/desktop-06-matricula-selecao.png) | ![](screenshots/depois/desktop-07-matricula-revisao.png) | ![](screenshots/depois/desktop-08-matricula-comprovante.png) |
+| Antes: seleção | Antes: "Continuar" já finaliza | Depois: escolha | Depois: revisão | Depois: comprovante |
+|---|---|---|---|---|
+| ![](screenshots/antes/desktop-matricula.png) | ![](screenshots/antes/desktop-matricula-continuar.png) | ![](screenshots/depois/desktop-06-matricula-selecao.png) | ![](screenshots/depois/desktop-07-matricula-revisao.png) | ![](screenshots/depois/desktop-08-matricula-comprovante.png) |
 
-**O que mudou:** o processo virou um passo a passo com indicador de etapas. O sistema **impede grades impossíveis** (conflito, pré-requisito, lotação, limite de créditos) e explica cada bloqueio. A revisão mostra a semana resultante e pede o aceite das regras. O comprovante tem protocolo e permite alterar ou cancelar, com Desfazer.
+**O que mudou:** no original, a tela prometia uma revisão que não existia: "Continuar matrícula" finalizava na hora, só com um toast. Agora o processo virou um passo a passo com indicador de etapas. O sistema **impede grades impossíveis** (conflito, pré-requisito, lotação, limite de créditos) e explica cada bloqueio. A revisão mostra a semana resultante e pede o aceite das regras. O comprovante tem protocolo e permite alterar ou cancelar, com Desfazer.
 
 ### Perfil
 
-| Antes | Depois |
-|---|---|
-| ![](screenshots/antes/desktop-perfil.png) | ![](screenshots/depois/desktop-09-perfil-validacao.png) |
+| Antes | Antes: nome vazio e telefone "abc" salvos "com sucesso" | Depois: erro no campo certo |
+|---|---|---|
+| ![](screenshots/antes/desktop-perfil.png) | ![](screenshots/antes/desktop-perfil-salvar-invalido.png) | ![](screenshots/depois/desktop-09-perfil-validacao.png) |
 
-**O que mudou:** os dados estão agrupados em seções (pessoais, contato, endereço, segurança). Os campos que só a secretaria altera ficam bloqueados com explicação e há suporte a **nome social**. Os erros aparecem por campo e o celular e o CEP têm máscara. A barra de alterações não salvas evita perder edições.
+**O que mudou:** o original aceitava qualquer valor, dizia "Perfil atualizado com sucesso!" e perdia tudo ao recarregar. Agora as alterações são validadas e ficam salvas. Os dados estão agrupados em seções (pessoais, contato, endereço, segurança). Os campos que só a secretaria altera ficam bloqueados com explicação e há suporte a **nome social**. Os erros aparecem por campo e o celular e o CEP têm máscara. A barra de alterações não salvas evita perder edições.
 
 ### Smartphone
 
-| Antes: Dashboard | Depois: Dashboard | Depois: Notas | Depois: Matrícula |
-|---|---|---|---|
-| ![](screenshots/antes/mobile-dashboard.png) | ![](screenshots/depois/mobile-01-dashboard.png) | ![](screenshots/depois/mobile-02-notas.png) | ![](screenshots/depois/mobile-04-matricula.png) |
+| Antes: Dashboard | Antes: notificações saindo da tela | Depois: Dashboard | Depois: Notas | Depois: Matrícula |
+|---|---|---|---|---|
+| ![](screenshots/antes/mobile-dashboard.png) | ![](screenshots/antes/mobile-notificacoes.png) | ![](screenshots/depois/mobile-01-dashboard.png) | ![](screenshots/depois/mobile-02-notas.png) | ![](screenshots/depois/mobile-04-matricula.png) |
 
-**O que mudou:** a barra inferior agora tem os **5 destinos**, incluindo Perfil, e indica o item ativo. O menu lateral duplicado foi removido. As notas viram cartões expansíveis e a matrícula tem um resumo fixo com o botão "Revisar" sempre ao alcance do polegar.
+**O que mudou:** a barra inferior agora tem os **5 destinos**, incluindo Perfil, e indica o item ativo. O menu lateral duplicado foi removido. O painel de notificações ocupa a largura da tela no celular, em vez de sair pela borda. As notas viram cartões expansíveis e a matrícula tem um resumo fixo com o botão "Revisar" sempre ao alcance do polegar.
 
 ### Navegação e saída
 
-| Sair (confirmação) | Login | Notificações (celular) | Tema escuro |
-|---|---|---|---|
-| ![](screenshots/depois/desktop-10-sair.png) | ![](screenshots/depois/desktop-01-login.png) | ![](screenshots/depois/mobile-06-notificacoes.png) | ![](screenshots/depois/desktop-11-dashboard-escuro.png) |
+| Antes: "Sair" (continua logado) | Depois: confirmação | Depois: login | Depois: notificações (celular) | Depois: tema escuro |
+|---|---|---|---|---|
+| ![](screenshots/antes/desktop-sair.png) | ![](screenshots/depois/desktop-10-sair.png) | ![](screenshots/depois/desktop-01-login.png) | ![](screenshots/depois/mobile-06-notificacoes.png) | ![](screenshots/depois/desktop-11-dashboard-escuro.png) |
 
-**O que mudou:** sair pede confirmação clara ("Continuar conectado" / "Sair") e leva a uma **tela de login** real, em vez de um cartão "Sessão encerrada". As notificações têm contador, marcam como lidas ao abrir e levam à tela relacionada. O tema escuro foi desenhado como paleta própria, e não como inversão das cores.
+**O que mudou:** no original, "Sair" mostrava "Sessão encerrada com sucesso." com o aluno ainda logado. Agora sair pede confirmação clara ("Continuar conectado" / "Sair") e leva a uma **tela de login** real. As notificações têm contador, marcam como lidas ao abrir e levam à tela relacionada. O tema escuro foi desenhado como paleta própria, e não como inversão das cores.
 
 ---
 
@@ -205,7 +209,7 @@ Contraste medido com a fórmula WCAG 2.1 (mínimo AA: 4,5:1 para texto normal):
 
 | Combinação | Contraste | Uso |
 |---|---|---|
-| `slate-400` sobre branco (**antes**) | 2,56:1 ❌ | Textos auxiliares da versão anterior |
+| `slate-400` sobre branco (**original**) | 2,56:1 ❌ | 13 textos auxiliares só no Dashboard original |
 | `slate-500` sobre branco | 4,76:1 ✅ | Legendas e textos auxiliares (novo mínimo) |
 | `slate-600` sobre branco | 7,58:1 ✅ | Descrições |
 | `slate-900` sobre `slate-50` | 17,06:1 ✅ | Texto principal |
