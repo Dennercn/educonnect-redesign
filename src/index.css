@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply scroll-smooth bg-slate-50 text-slate-900 antialiased;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-tap-highlight-color: transparent;
+  }
+  html.dark {
+    @apply bg-slate-950 text-slate-100;
+    color-scheme: dark;
+  }
+  body {
+    @apply min-w-[320px] font-sans;
+  }
+  h1, h2, h3 {
+    @apply font-display tracking-tight;
+  }
+  /* Foco visível e consistente para navegação por teclado */
+  :focus-visible {
+    @apply outline-none ring-2 ring-brand-500 ring-offset-2 ring-offset-white dark:ring-brand-400 dark:ring-offset-slate-950;
+  }
+  ::selection {
+    @apply bg-brand-200 text-brand-950;
+  }
+}
+
+@layer components {
+  .card {
+    @apply min-w-0 rounded-2xl border border-slate-200/80 bg-white shadow-card dark:border-slate-800 dark:bg-slate-900 dark:shadow-none;
+  }
+  .input {
+    @apply w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-500
+      transition-colors hover:border-slate-400 focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/15
+      disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-500
+      dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500 dark:hover:border-slate-600
+      dark:disabled:bg-slate-800/60;
+  }
+  .input[aria-invalid='true'] {
+    @apply border-rose-500 focus:border-rose-500 focus:ring-rose-500/15;
+  }
+  .eyebrow {
+    @apply text-xs font-semibold uppercase tracking-[.14em] text-brand-600 dark:text-brand-400;
+  }
+}
+
+@layer utilities {
+  .scrollbar-thin { scrollbar-width: thin; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

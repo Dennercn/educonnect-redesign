@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  color: #0a0a0a;
+  background: #f32105;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; }
+button, input, select { font: inherit; }
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: #046ff1; border-radius: 999px; }
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up { animation: fade-up .45s ease both; }
+
+@keyframes float-in {
+  from { opacity: 0; transform: scale(.98) translateY(8px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+.animate-float-in { animation: float-in .5s ease both; }
+
+.card {
+  @apply rounded-2xl border border-slate-200/80 bg-white shadow-soft;
+}
+
+.focus-ring {
+  @apply focus:outline-none focus:ring-4 focus:ring-indigo-100 focus:border-indigo-400;
+}
+
+/* Tema e componentes reutilizáveis inspirados no Material Design */
+:root { color: #172033; background: #f8fafc; }
+.btn-primary { @apply rounded-xl bg-indigo-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-indigo-700 focus-visible:outline focus-visible:outline-4 focus-visible:outline-indigo-300; }
+.btn-secondary { @apply rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-700 transition hover:bg-slate-100 focus-visible:outline focus-visible:outline-4 focus-visible:outline-indigo-300; }
+button:disabled { cursor: not-allowed; }
+.theme-dark { background: #0b1220 !important; color: #e7edf8; }
+.theme-dark .card, .theme-dark header, .theme-dark nav.fixed, .theme-dark .bg-white, .theme-dark .bg-white\/85, .theme-dark .bg-white\/95 { background-color: #172235 !important; color: #e7edf8 !important; border-color: #34435b !important; }
+.theme-dark .bg-slate-50, .theme-dark .bg-slate-100, .theme-dark .bg-indigo-50 { background-color: #233149 !important; }
+.theme-dark .text-slate-900, .theme-dark .text-slate-800, .theme-dark .text-slate-700, .theme-dark .text-indigo-950 { color: #f2f6ff !important; }
+.theme-dark .text-slate-500, .theme-dark .text-slate-600, .theme-dark .text-slate-400 { color: #b6c6dd !important; }
+.theme-dark input, .theme-dark select { background: #233149 !important; color: #f2f6ff !important; border-color: #52617a !important; }
+.theme-dark .border-slate-100, .theme-dark .border-slate-200 { border-color: #34435b !important; }
+.theme-dark .btn-primary { background: #6366f1 !important; color: white !important; }
+.theme-dark .btn-secondary { background: #27354c !important; color: white !important; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; } }
