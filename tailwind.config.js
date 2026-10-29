@@ -52,6 +52,7 @@ export default {
           to: { opacity: '1', transform: 'translateY(0)' },
         },
         grow: { from: { transform: 'scaleX(0)' }, to: { transform: 'scaleX(1)' } },
+        progress: { from: { width: '0%' }, to: { width: '100%' } },
       },
       animation: {
         'fade-up': 'fade-up .4s cubic-bezier(.2,.7,.3,1) both',

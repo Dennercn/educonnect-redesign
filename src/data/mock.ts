@@ -1,5 +1,5 @@
 // Dados fictícios para demonstração. Não há backend.
-import type { AppNotification, Offering, Profile, SemesterData, Subject } from '../types'
+import type { AppNotification, Highlight, Offering, Profile, SemesterData, Subject } from '../types'
 
 export const student = {
   ra: '20261234',
@@ -116,4 +116,48 @@ export const initialNotifications: AppNotification[] = [
   { id: 'n1', title: 'Matrícula 2027.1 aberta', description: 'Escolha suas disciplinas até 20/11.', time: 'há 2 h', page: 'matricula', read: false, kind: 'warning' },
   { id: 'n2', title: 'Nova nota publicada', description: 'Estruturas de Dados — N2: 5,6.', time: 'ontem', page: 'notas', read: false, kind: 'info' },
   { id: 'n3', title: 'Perfil verificado', description: 'Seus dados de contato estão atualizados.', time: 'há 3 dias', page: 'perfil', read: true, kind: 'success' },
+]
+
+// Destaques do carrossel da tela inicial. As imagens ficam em public/images/carrossel/
+// (geradas com o Nano Banana; prompts em docs/PROMPTS-NANO-BANANA.md). Sem imagem, o
+// carrossel mostra o gradiente e o ícone do destaque.
+export const highlights: Highlight[] = [
+  {
+    id: 'matricula',
+    tag: 'Matrícula 2027.1',
+    title: 'Monte sua grade do próximo semestre',
+    description: 'Período aberto até 20/11. Conflitos de horário e pré-requisitos são verificados automaticamente.',
+    image: '/images/carrossel/01-matricula.png',
+    icon: 'matricula',
+    tone: 'from-brand-700 to-brand-500',
+    cta: { label: 'Fazer matrícula', page: 'matricula' },
+  },
+  {
+    id: 'monitoria',
+    tag: 'Monitoria',
+    title: 'Plantão de Estruturas de Dados',
+    description: 'Terças e quintas, das 18h às 19h, no Lab 02. Ideal para se preparar para a recuperação de 24/11.',
+    image: '/images/carrossel/02-monitoria.png',
+    icon: 'monitoria',
+    tone: 'from-accent-700 to-accent-500',
+    cta: { label: 'Ver minhas notas', page: 'notas' },
+  },
+  {
+    id: 'semana',
+    tag: 'Evento · 17 a 21/11',
+    title: 'Semana Acadêmica de Tecnologia',
+    description: 'Palestras, oficinas e hackathon no auditório central. Participação conta como horas complementares.',
+    image: '/images/carrossel/03-semana-academica.png',
+    icon: 'evento',
+    tone: 'from-violet-700 to-fuchsia-600',
+  },
+  {
+    id: 'biblioteca',
+    tag: 'Biblioteca digital',
+    title: 'Mais de 12 mil e-books, 24 horas por dia',
+    description: 'Acesse livros-texto das suas disciplinas com o seu RA, no computador ou no celular.',
+    image: '/images/carrossel/04-biblioteca.png',
+    icon: 'biblioteca',
+    tone: 'from-sky-700 to-sky-500',
+  },
 ]

@@ -73,3 +73,15 @@ export interface AppNotification {
   read: boolean
   kind: 'info' | 'success' | 'warning'
 }
+
+export interface Highlight {
+  id: string
+  tag: string
+  title: string
+  description: string
+  image: string
+  icon: 'matricula' | 'monitoria' | 'evento' | 'biblioteca'
+  /** Gradiente de fundo (classes Tailwind) usado por trás da imagem ou no lugar dela */
+  tone: string
+  cta?: { label: string; page: Page }
+}

@@ -2,13 +2,14 @@ import { AlertTriangle, ArrowRight, BookOpen, CalendarClock, CalendarDays, Check
 import type { LucideIcon } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { useApp } from '../context/AppContext'
-import { currentSemester, enrollmentPeriod, events, student, subjects } from '../data/mock'
+import { currentSemester, enrollmentPeriod, events, highlights, student, subjects } from '../data/mock'
 import { MIN_ATTENDANCE, PASSING_GRADE, atRisk, average, daysUntil, formatDate, formatGrade, situation, weekdayNames, weekdays, weightedAverage } from '../lib/academic'
 import { cn } from '../lib/cn'
 import type { Page, Subject } from '../types'
 import { Button } from '../components/ui/Button'
 import { Badge } from '../components/ui/Badge'
 import { Card, CardHeader, ProgressBar } from '../components/ui/Misc'
+import { Carousel } from '../components/ui/Carousel'
 
 const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
 const greeting = (h: number) => (h < 12 ? 'Bom dia' : h < 18 ? 'Boa tarde' : 'Boa noite')
@@ -110,6 +111,17 @@ export function Dashboard({ onNavigate }: { onNavigate: (p: Page) => void }) {
         <Stat icon={GraduationCap} label="Créditos do curso" value={`${student.completedCredits}/${student.totalCredits}`} detail={<ProgressBar value={student.completedCredits} max={student.totalCredits} label="Créditos integralizados" className="mt-1" />} onClick={() => onNavigate('disciplinas')} />
         <Stat icon={AlertTriangle} label="Precisam de atenção" value={String(attention.length)} detail={attention.map(r => subjects[r.code].name.split(' ')[0]).join(', ') || 'Nenhuma'} tone={attention.length ? 'warning' : 'default'} onClick={() => onNavigate('notas')} />
       </section>
+
+      {/* Destaques do campus */}
+      <Carousel
+        label="Destaques do campus"
+        onNavigate={onNavigate}
+        slides={highlights.map(h =>
+          h.id === 'matricula' && enrolled
+            ? { ...h, title: `Matrícula ${enrollmentPeriod.semester} confirmada`, description: `${enrollment!.codes.length} disciplinas · protocolo ${enrollment!.protocol}. Você pode alterar até 20/11.`, cta: { label: 'Ver comprovante', page: 'matricula' as const } }
+            : h,
+        )}
+      />
 
       <div className="grid gap-6 xl:grid-cols-[1.5fr_1fr] [&>*]:min-w-0">
         {/* Desempenho por disciplina: uma série, uma cor, valor rotulado */}

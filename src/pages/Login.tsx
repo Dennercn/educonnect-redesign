@@ -14,6 +14,7 @@ export function Login({ onLogin }: { onLogin: () => void }) {
   const [show, setShow] = useState(false)
   const [errors, setErrors] = useState<{ ra?: string; password?: string }>({})
   const [loading, setLoading] = useState(false)
+  const [imageFailed, setImageFailed] = useState(false)
 
   const submit = async (e: FormEvent) => {
     e.preventDefault()
@@ -32,9 +33,15 @@ export function Login({ onLogin }: { onLogin: () => void }) {
       <aside className="relative hidden overflow-hidden bg-gradient-to-br from-brand-700 via-brand-600 to-accent-600 p-12 text-white lg:flex lg:flex-col">
         <div className="absolute -right-24 -top-24 h-96 w-96 rounded-full bg-white/10 blur-3xl" aria-hidden />
         <div className="absolute -bottom-32 -left-16 h-96 w-96 rounded-full bg-accent-400/20 blur-3xl" aria-hidden />
-        <div className="relative flex items-center gap-3">
-          <span className="grid h-11 w-11 place-items-center rounded-2xl bg-white/15 ring-1 ring-white/20"><GraduationCap className="h-6 w-6" aria-hidden /></span>
-          <span className="font-display text-xl font-extrabold">EduConnect</span>
+        {/* Ilustração gerada com o Nano Banana (public/images/login.png); sem ela, fica só o gradiente */}
+        {!imageFailed && (
+          <>
+            <img src="/images/login.png" alt="" onError={() => setImageFailed(true)} className="absolute inset-0 h-full w-full object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-t from-brand-950/95 via-brand-900/60 to-brand-900/30" aria-hidden />
+          </>
+        )}
+        <div className="relative">
+          <Logo inverted />
         </div>
         <div className="relative mt-auto max-w-md">
           <h2 className="text-4xl font-extrabold leading-tight">Sua vida acadêmica, organizada em um só lugar.</h2>

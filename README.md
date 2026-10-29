@@ -8,6 +8,8 @@ Redesign do sistema acadêmico **EduConnect**: uma interface moderna, responsiva
 |---|---|---|
 | ![Celular](docs/screenshots/depois/mobile-01-dashboard.png) | ![Tablet](docs/screenshots/depois/tablet-02-notas.png) | ![Escuro](docs/screenshots/depois/mobile-07-notas-escuro.png) |
 
+> 🖼️ **Imagens do carrossel e do login:** geradas com o Nano Banana. Veja os prompts e os nomes de arquivo em [`docs/PROMPTS-NANO-BANANA.md`](docs/PROMPTS-NANO-BANANA.md).
+>
 > 📄 **Processo completo do redesign** (análise da interface anterior, planejamento, design system, wireframes, comparação antes × depois e justificativas): [`docs/REDESIGN.md`](docs/REDESIGN.md)
 
 ---
@@ -59,7 +61,7 @@ Para voltar ao estado inicial (perfil, matrícula e notificações originais), l
 
 | Área | O que o aluno consegue fazer |
 |---|---|
-| **Início (Dashboard)** | Saudação com a **próxima aula** (calculada pelo dia e hora atuais), aviso de matrícula com contagem regressiva, indicadores (média, frequência, créditos, disciplinas que precisam de atenção), desempenho por disciplina com linha de corte da média 7,0, próximos prazos e atalhos. |
+| **Início (Dashboard)** | Saudação com a **próxima aula** (calculada pelo dia e hora atuais), aviso de matrícula com contagem regressiva, **carrossel de destaques do campus** (troca automática que pausa ao passar o mouse, botão de pausa, setas, indicadores, teclado e gesto de arrastar), indicadores (média, frequência, créditos, disciplinas que precisam de atenção), desempenho por disciplina com linha de corte da média 7,0, próximos prazos e atalhos. |
 | **Notas e boletim** | Troca de semestre (2026.2, 2026.1, 2025.2), filtros por situação com contagem, busca, tabela no desktop/tablet e cartões no celular, detalhes de cada disciplina (composição da média, frequência, faltas) e **"meta para a N2"**: a nota mínima que falta para ser aprovado. Também imprime o boletim. |
 | **Disciplinas** | Visão em **cartões** (professor, horário, sala, créditos, conteúdo concluído, frequência) ou em **grade semanal**, com destaque para o dia de hoje. Os detalhes da disciplina abrem em um diálogo com link de e-mail para o professor. |
 | **Matrícula** | Fluxo em 3 etapas (**Escolher → Revisar → Comprovante**). Verifica automaticamente **conflito de horário**, **pré-requisito**, **turma lotada** e **limite de créditos**, sempre explicando o motivo do bloqueio. Resumo fixo na lateral (desktop) ou em uma barra inferior (celular), aceite das regras, protocolo, opção de alterar ou cancelar a matrícula (com **Desfazer**). |
