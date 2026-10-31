@@ -39,7 +39,7 @@ export function Header({ page, onNavigate, onLogout }: { page: Page; onNavigate:
   }
 
   return (
-    <header className="sticky top-0 z-30 print:hidden border-b border-slate-200/80 bg-white/80 backdrop-blur-lg dark:border-slate-800 dark:bg-slate-950/80">
+    <header className="sticky top-0 z-30 print:hidden border-b border-slate-200/70 bg-slate-50/85 backdrop-blur-lg dark:border-slate-800/80 dark:bg-slate-950/85">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
         <div className="min-w-0">
           <button onClick={() => onNavigate('dashboard')} className="rounded-xl md:hidden" aria-label="EduConnect — ir para o início">

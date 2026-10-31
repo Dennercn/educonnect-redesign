@@ -8,7 +8,7 @@ Redesign do sistema acadêmico **EduConnect**: uma interface moderna, responsiva
 |---|---|---|
 | ![Celular](docs/screenshots/depois/mobile-01-dashboard.png) | ![Tablet](docs/screenshots/depois/tablet-02-notas.png) | ![Escuro](docs/screenshots/depois/mobile-07-notas-escuro.png) |
 
-> 🖼️ **Imagens do carrossel e do login:** geradas com o Nano Banana. Veja os prompts e os nomes de arquivo em [`docs/PROMPTS-NANO-BANANA.md`](docs/PROMPTS-NANO-BANANA.md).
+> 🖼️ **Imagens:** a foto de destaque do Início e do login foi gerada no **Artlist** (Nano Banana 2); o carrossel usa fotos gratuitas do [Unsplash](https://unsplash.com). Créditos no fim deste arquivo. Para trocá-las por imagens geradas com IA, veja [`docs/PROMPTS-NANO-BANANA.md`](docs/PROMPTS-NANO-BANANA.md).
 >
 > 📄 **Processo completo do redesign** (análise da interface anterior, planejamento, design system, wireframes, comparação antes × depois e justificativas): [`docs/REDESIGN.md`](docs/REDESIGN.md)
 
@@ -108,4 +108,22 @@ docs/
 
 - **Não há backend.** Todos os dados acadêmicos são **fictícios** ([`src/data/mock.ts`](src/data/mock.ts)). Login, matrícula, troca de senha e perfil são simulações: o perfil, a matrícula, o tema e as notificações ficam salvos no `localStorage` do navegador.
 - A data de hoje é usada de verdade (próxima aula, dias restantes da matrícula, prazos). Os dados de exemplo foram criados para o 2º semestre de 2026, então, em outras épocas, os prazos podem aparecer como "encerrado".
-- As fontes (Inter e Plus Jakarta Sans) são carregadas do Google Fonts. Sem internet, o sistema usa a fonte padrão do sistema operacional.
+- As fontes (Manrope e Figtree) são carregadas do Google Fonts. Sem internet, o sistema usa a fonte padrão do sistema operacional.
+
+## Créditos das imagens
+
+Fotos do [Unsplash](https://unsplash.com), usadas sob a [Licença Unsplash](https://unsplash.com/license) (uso gratuito, inclusive sem atribuição obrigatória):
+
+| Arquivo | Onde aparece | Foto original |
+|---|---|---|
+| `public/images/carrossel/01-matricula.jpg` | Carrossel: Matrícula | [unsplash.com/photos/45594efa4cbe](https://images.unsplash.com/photo-1506784983877-45594efa4cbe) |
+| `public/images/carrossel/02-monitoria.jpg` | Carrossel: Monitoria | [unsplash.com/photos/66273c2fd55f](https://images.unsplash.com/photo-1522202176988-66273c2fd55f) |
+| `public/images/carrossel/03-semana-academica.jpg` | Carrossel: Semana Acadêmica | [unsplash.com/photos/178a50c2df87](https://images.unsplash.com/photo-1540575467063-178a50c2df87) |
+| `public/images/carrossel/04-biblioteca.jpg` | Carrossel: Biblioteca digital | [unsplash.com/photos/b7833e8f5570](https://images.unsplash.com/photo-1481627834876-b7833e8f5570) |
+
+Imagem gerada com IA no [Artlist](https://artlist.io) (modelo Nano Banana 2), a partir de um prompt da equipe:
+
+| Arquivo | Onde aparece |
+|---|---|
+| `public/images/destaque.jpg` | Painel de boas-vindas do Início |
+| `public/images/login.jpg` | Tela de login (recorte vertical da mesma imagem) |

@@ -119,7 +119,7 @@ export const initialNotifications: AppNotification[] = [
 ]
 
 // Destaques do carrossel da tela inicial. As imagens ficam em public/images/carrossel/
-// (geradas com o Nano Banana; prompts em docs/PROMPTS-NANO-BANANA.md). Sem imagem, o
+// (fotos do Unsplash, de uso livre; créditos no README). Sem imagem, o
 // carrossel mostra o gradiente e o ícone do destaque.
 export const highlights: Highlight[] = [
   {
@@ -127,7 +127,7 @@ export const highlights: Highlight[] = [
     tag: 'Matrícula 2027.1',
     title: 'Monte sua grade do próximo semestre',
     description: 'Período aberto até 20/11. Conflitos de horário e pré-requisitos são verificados automaticamente.',
-    image: '/images/carrossel/01-matricula.png',
+    image: '/images/carrossel/01-matricula.jpg',
     icon: 'matricula',
     tone: 'from-brand-700 to-brand-500',
     cta: { label: 'Fazer matrícula', page: 'matricula' },
@@ -137,7 +137,7 @@ export const highlights: Highlight[] = [
     tag: 'Monitoria',
     title: 'Plantão de Estruturas de Dados',
     description: 'Terças e quintas, das 18h às 19h, no Lab 02. Ideal para se preparar para a recuperação de 24/11.',
-    image: '/images/carrossel/02-monitoria.png',
+    image: '/images/carrossel/02-monitoria.jpg',
     icon: 'monitoria',
     tone: 'from-accent-700 to-accent-500',
     cta: { label: 'Ver minhas notas', page: 'notas' },
@@ -147,17 +147,17 @@ export const highlights: Highlight[] = [
     tag: 'Evento · 17 a 21/11',
     title: 'Semana Acadêmica de Tecnologia',
     description: 'Palestras, oficinas e hackathon no auditório central. Participação conta como horas complementares.',
-    image: '/images/carrossel/03-semana-academica.png',
+    image: '/images/carrossel/03-semana-academica.jpg',
     icon: 'evento',
-    tone: 'from-violet-700 to-fuchsia-600',
+    tone: 'from-slate-800 to-slate-600',
   },
   {
     id: 'biblioteca',
     tag: 'Biblioteca digital',
     title: 'Mais de 12 mil e-books, 24 horas por dia',
     description: 'Acesse livros-texto das suas disciplinas com o seu RA, no computador ou no celular.',
-    image: '/images/carrossel/04-biblioteca.png',
+    image: '/images/carrossel/04-biblioteca.jpg',
     icon: 'biblioteca',
-    tone: 'from-sky-700 to-sky-500',
+    tone: 'from-brand-900 to-brand-700',
   },
 ]

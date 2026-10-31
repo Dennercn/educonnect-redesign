@@ -5,37 +5,51 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Cor de marca EduConnect: azul-índigo (contraste AA sobre branco a partir do 600)
-        brand: {
-          50: '#eef2ff',
-          100: '#e0e7ff',
-          200: '#c7d2fe',
-          300: '#a5b4fc',
-          400: '#818cf8',
-          500: '#6366f1',
-          600: '#4f46e5',
-          700: '#4338ca',
-          800: '#3730a3',
-          900: '#312e81',
-          950: '#1e1b4b',
+        // Neutros cinza-azulados frios: substituem o cinza padrão em todo o portal
+        slate: {
+          50: '#f7f8fa',
+          100: '#eff1f5',
+          200: '#e2e5ec',
+          300: '#c9ced9',
+          400: '#98a0b0',
+          500: '#687083',
+          600: '#4e5566',
+          700: '#393f4d',
+          800: '#262a35',
+          900: '#191c24',
+          950: '#0f1117',
         },
-        // Cor de apoio para destaques e ilustrações
+        // Cor de marca: azul acadêmico sóbrio (texto branco sobre o 600 tem contraste 7,2:1)
+        brand: {
+          50: '#eef2fb',
+          100: '#dce4f7',
+          200: '#bacaef',
+          300: '#8fa8e3',
+          400: '#6684d6',
+          500: '#4466c8',
+          600: '#2f50b4',
+          700: '#273f8f',
+          800: '#213574',
+          900: '#1c2c5e',
+          950: '#121b3b',
+        },
+        // Cor de apoio discreta (azul-petróleo): só em gradientes suaves do logotipo, avatar e capa do perfil
         accent: {
-          50: '#f0fdfa',
-          100: '#ccfbf1',
-          400: '#2dd4bf',
-          500: '#14b8a6',
-          600: '#0d9488',
-          700: '#0f766e',
+          50: '#ecf6f8',
+          100: '#d3eaef',
+          400: '#5fa3b5',
+          500: '#3c8799',
+          600: '#2f6f80',
+          700: '#285b69',
         },
       },
       fontFamily: {
-        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        display: ['"Plus Jakarta Sans"', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        sans: ['Figtree', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        display: ['Manrope', 'Figtree', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
-        card: '0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 24px -12px rgba(15, 23, 42, 0.12)',
-        raised: '0 2px 4px rgba(15, 23, 42, 0.06), 0 20px 40px -16px rgba(15, 23, 42, 0.25)',
+        card: '0 1px 2px rgba(15, 17, 23, 0.04), 0 8px 24px -16px rgba(15, 17, 23, 0.14)',
+        raised: '0 2px 4px rgba(15, 17, 23, 0.05), 0 20px 40px -20px rgba(15, 17, 23, 0.28)',
       },
       keyframes: {
         'fade-up': {

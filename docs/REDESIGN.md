@@ -27,6 +27,19 @@ A análise combinou leitura do código com testes automatizados no navegador (Ch
 | 11 | Visual | O CSS define o fundo da página como **vermelho** (`#f32105`), coberto pelo conteúdo, mas visível na rolagem elástica do celular. A barra de rolagem azul (`#046ff1`) fica fora da paleta índigo. Não há tema escuro | Identidade visual inconsistente |
 | 12 | Navegação | Não há rotas: atualizar a página sempre volta ao Dashboard e o botão "voltar" sai do sistema | Comportamento diferente do esperado na web |
 
+### Tabela da atividade: 5 problemas principais
+
+Resumo no formato pedido pela atividade (Etapa 1), com os problemas de maior impacto da lista acima:
+
+| Problema encontrado | Por que é um problema? | Solução proposta |
+|---|---|---|
+| 1. **Feedback falso no Perfil:** salvar com nome vazio e telefone "abc" mostra "Perfil atualizado com sucesso!", e os dados somem ao recarregar | Mensagem de erro inadequada: o aluno acredita que os dados foram salvos e deixa de receber avisos da secretaria | Validação por campo (no blur e no envio) com mensagem específica abaixo do campo; botão **Salvar** com estado de carregamento; toast de sucesso só depois de salvar de verdade; aviso fixo com **Tentar novamente** quando o salvamento falha |
+| 2. **Feedback falso ao sair:** "Sair do sistema" mostra "Sessão encerrada com sucesso", mas o aluno continua logado | Ausência de feedback real: em um computador compartilhado, outra pessoa acessa os dados do aluno | Diálogo de confirmação, botão com carregamento ("Saindo...") e saída real para a tela de login |
+| 3. **Ação importante sem revisão na matrícula:** "Continuar matrícula" finaliza na hora, sem verificar conflito de horário, pré-requisito ou vagas | Ação importante pouco controlada: é possível montar uma grade impossível sem perceber | Fluxo em 3 etapas (Escolher → Revisar → Comprovante), bloqueios sempre explicados, resumo de créditos fixo e diálogo de confirmação para cancelar |
+| 4. **Layout quebrando no celular:** o painel de notificações sai da tela em 390 px e a barra inferior não tem Perfil nem Sair | Funções essenciais ficam inacessíveis justamente no dispositivo mais usado pelos alunos | Navegação adaptada a cada largura (barra inferior com 5 itens, menu só com ícones no tablet, menu completo no desktop) e painéis com largura fluida; testado em 360, 768 e 1366 px |
+| 5. **Baixo contraste e sem acessibilidade:** 13 textos com contraste 2,56:1, sem foco visível nem anúncio das mensagens | Alunos com baixa visão ou que usam teclado e leitor de tela não conseguem usar o portal | Tokens de cor com contraste mínimo de 4,96:1, foco visível em todos os controles, toasts com `aria-live` e navegação completa por teclado |
+| 6. **Cores sem padrão e sem tema escuro:** fundo vermelho aparecendo na rolagem, barra de rolagem azul fora da paleta | Interface pouco profissional e inconsistente, o oposto do que o cliente pediu | Design system com tokens centralizados em `tailwind.config.js` e modo claro/escuro com as cores vindas do tema |
+
 **Ponto positivo do original:** layout em cartões, paleta índigo e ícones Lucide já davam uma boa base. O redesign manteve a ideia, mas corrigiu o comportamento, a hierarquia e a consistência.
 
 ---
@@ -42,31 +55,35 @@ A análise combinou leitura do código com testes automatizados no navegador (Ch
 
 ### Design system
 
+**Conceito visual: sóbrio e profissional.** O cliente pediu uma aplicação "mais profissional e consistente". Por isso o portal usa uma única cor de marca (azul acadêmico) para ações e navegação, cinzas neutros para todo o resto e as cores de status só quando há algo a comunicar. O destaque visual fica por conta de uma **fotografia de biblioteca** gerada no Artlist (modelo Nano Banana 2), usada no painel de boas-vindas e na tela de login com uma película escura que garante a leitura do texto. A navegação segue o padrão de gaveta do Material Design: superfície clara e item ativo em uma pílula azul suave.
+
 **Cores** (definidas como tokens em [`tailwind.config.js`](../tailwind.config.js)):
 
 | Papel | Token | Hex | Uso |
 |---|---|---|---|
-| Marca | `brand-600` | `#4f46e5` | Ações primárias, item ativo, destaques |
-| Marca (escuro) | `brand-300/400` | `#a5b4fc` / `#818cf8` | Texto e destaques no tema escuro |
-| Apoio | `accent-500` | `#14b8a6` | Gradientes do avatar e da tela de login (decorativo) |
-| Neutros | `slate-50 … 950` | — | Fundo, superfícies, textos e bordas |
+| Marca | `brand-600` | `#2f50b4` | Azul acadêmico: ações primárias, links, barras de progresso |
+| Marca (suave) | `brand-50` / `brand-100` | `#eef2fb` / `#dce4f7` | Item ativo do menu, ícones e botões suaves |
+| Marca (escuro) | `brand-300/400` | `#8fa8e3` / `#6684d6` | Texto e destaques no tema escuro |
+| Apoio | `accent-700` | `#285b69` | Azul-petróleo discreto, só no gradiente da capa do perfil |
+| Neutros | `slate-50 … 950` | `#f7f8fa` … `#0f1117` | Cinzas frios: fundo, superfícies, textos e bordas |
 | Status: aprovado | `emerald` | — | Sempre com ícone ✓ e o texto "Aprovado" |
-| Status: atenção | `amber` | — | Recuperação, abaixo da média, últimas vagas |
+| Status: atenção | `amber` | — | Recuperação, abaixo da média, últimas vagas, prazos |
 | Status: reprovado/erro | `rose` | — | Reprovação, erro de validação, sair |
 | Status: em andamento | `sky` | — | "Cursando" |
 
 As cores de status são **reservadas**: não aparecem como decoração, então cada uma tem sempre o mesmo significado.
 
-**Tipografia**: *Plus Jakarta Sans* (600–800) nos títulos e números de destaque, para dar personalidade; *Inter* (400–700) nos textos de interface, pela ótima leitura em tamanhos pequenos. Os números usam `tabular-nums`, para que as notas fiquem alinhadas na tabela.
+**Tipografia**: *Manrope* (600–800), geométrica e firme, nos títulos e números de destaque; *Figtree* (400–700) nos textos de interface, pela boa leitura em tamanhos pequenos. Os números usam `tabular-nums`, para que as notas fiquem alinhadas na tabela. Os rótulos usam letras normais, sem caixa-alta.
 
-| Nível | Tamanho / peso |
+| Nível | Fonte / tamanho / peso |
 |---|---|
-| Título da página | 24–30 px · 800 |
-| Título de cartão | 16 px · 700 |
-| Corpo | 14–16 px · 400 |
-| Rótulo / legenda | 12 px · 500–600 |
+| Saudação do Início | Manrope · 30–36 px · 800 |
+| Título da página | Manrope · 24–32 px · 700 |
+| Título de cartão | Manrope · 16 px · 700 |
+| Corpo | Figtree · 14–16 px · 400 |
+| Rótulo / legenda | Figtree · 12–14 px · 500–600 |
 
-**Forma e espaço**: espaçamento em múltiplos de 4 px; cantos de 12 px (campos e botões) e 16 px (cartões); duas sombras (`card` e `raised`); áreas de toque de pelo menos 40 px no desktop e 48 px no celular.
+**Forma e espaço**: espaçamento em múltiplos de 4 px; botões e itens de menu em formato de pílula (padrão Material 3); cantos de 12 px nos campos, 16 px nos cartões e 24 px no painel de boas-vindas; duas sombras neutras e suaves (`card` e `raised`); áreas de toque de pelo menos 40 px no desktop e 48 px no celular.
 
 **Componentes** ([`src/components/ui`](../src/components/ui)): `Button` (primary, secondary, ghost, subtle, danger; tamanhos sm/md/lg; estado de *loading*), `IconButton` (com contador), `Badge` e `SituationBadge`, `Field` (rótulo, dica, erro e ícone), `Dialog`, `Card`, `PageHeader`, `ProgressBar` (com marcador de meta), `Segmented`, `SearchInput`, `EmptyState`, `Avatar` e `Toast`.
 
@@ -183,6 +200,10 @@ Verificação automatizada: nenhuma tela tem rolagem horizontal em **360, 390, 7
 |---|---|---|
 | ![](screenshots/antes/desktop-perfil.png) | ![](screenshots/antes/desktop-perfil-salvar-invalido.png) | ![](screenshots/depois/desktop-09-perfil-validacao.png) |
 
+| Depois: falha ao salvar (Desafio B) |
+|---|
+| ![](screenshots/depois/desktop-13-perfil-erro.png) |
+
 **O que mudou:** o original aceitava qualquer valor, dizia "Perfil atualizado com sucesso!" e perdia tudo ao recarregar. Agora as alterações são validadas e ficam salvas. Os dados estão agrupados em seções (pessoais, contato, endereço, segurança). Os campos que só a secretaria altera ficam bloqueados com explicação e há suporte a **nome social**. Os erros aparecem por campo e o celular e o CEP têm máscara. A barra de alterações não salvas evita perder edições.
 
 ### Smartphone
@@ -210,14 +231,17 @@ Contraste medido com a fórmula WCAG 2.1 (mínimo AA: 4,5:1 para texto normal):
 | Combinação | Contraste | Uso |
 |---|---|---|
 | `slate-400` sobre branco (**original**) | 2,56:1 ❌ | 13 textos auxiliares só no Dashboard original |
-| `slate-500` sobre branco | 4,76:1 ✅ | Legendas e textos auxiliares (novo mínimo) |
-| `slate-600` sobre branco | 7,58:1 ✅ | Descrições |
-| `slate-900` sobre `slate-50` | 17,06:1 ✅ | Texto principal |
-| Branco sobre `brand-600` | 6,29:1 ✅ | Botão primário (claro e escuro) |
-| `brand-700` sobre `brand-50` | 7,07:1 ✅ | Item ativo do menu, badges |
+| `slate-500` sobre branco | 4,96:1 ✅ | Legendas e textos auxiliares (novo mínimo) |
+| `slate-600` sobre branco | 7,46:1 ✅ | Descrições |
+| `slate-900` sobre `slate-50` | 16,03:1 ✅ | Texto principal |
+| Branco sobre `brand-600` | 7,17:1 ✅ | Botão primário e selo "Aberta" |
+| `brand-800` sobre `brand-100` | 9,03:1 ✅ | Item ativo da barra inferior (celular) |
+| `brand-700` sobre `brand-50` | 8,54:1 ✅ | Item ativo do menu, badges e botões suaves |
 | `emerald-800` / `amber-800` / `rose-800` / `sky-800` sobre o fundo `-50` | 6,84–7,30:1 ✅ | Etiquetas de situação |
-| `brand-100` sobre `brand-600` | 5,10:1 ✅ | Textos do bloco de boas-vindas |
-| `slate-100` sobre `slate-950` | 18,41:1 ✅ | Texto no tema escuro |
+| Texto branco sobre a foto | película escura de 60–90% | Painel de boas-vindas e login: a foto nunca fica atrás do texto sem a película |
+| `slate-100` sobre `slate-950` | 16,69:1 ✅ | Texto no tema escuro |
+| `slate-400` sobre `slate-900` | 6,48:1 ✅ | Textos auxiliares no tema escuro |
+| `brand-300` sobre `slate-900` | 7,20:1 ✅ | Links e item ativo no tema escuro |
 
 Outras medidas: foco visível em todos os elementos interativos, link "Pular para o conteúdo", diálogos com foco preso, Esc e retorno de foco, `aria-current`, `aria-invalid` + `aria-describedby`, `role="progressbar"` e `role="switch"`, tabela com `caption`/`scope`, toasts anunciados (`aria-live`), status sempre com ícone + texto, `prefers-reduced-motion` e `lang="pt-BR"`.
 
@@ -228,6 +252,52 @@ Outras medidas: foco visível em todos os elementos interativos, link "Pular par
 1. **Indicadores que respondem perguntas** (próxima aula, meta para a N2, dias até o fim da matrícula), porque o aluno entra no portal para resolver algo, e não para olhar números soltos.
 2. **Navegação adaptada a cada dispositivo** (barra inferior, menu só com ícones, menu completo), sem duplicar menus. A barra inferior fica na zona do polegar e cobre todas as áreas.
 3. **Bloqueios sempre explicados** na matrícula e no perfil. Um botão desabilitado sem explicação gera chamados à secretaria.
-4. **Cores com significado fixo**: o índigo indica ação e navegação, e as cores de status nunca são usadas como enfeite. Assim, verde, âmbar e vermelho sempre querem dizer a mesma coisa.
+4. **Cores com significado fixo**: o azul indica ação e navegação, os cinzas organizam o conteúdo, e as cores de status nunca são usadas como enfeite. Assim, verde, âmbar e vermelho sempre querem dizer a mesma coisa.
 5. **Fluxo em etapas com revisão e comprovante** na matrícula, porque é uma ação importante e difícil de desfazer: o aluno precisa conferir antes e ter um protocolo depois.
 6. **Componentes próprios e tokens centralizados**: qualquer ajuste de cor, raio ou sombra vale para o sistema inteiro, o que garante a consistência pedida no enunciado.
+
+---
+
+## 6. Requisitos da atividade (Material Design)
+
+### Componentes Material e seus equivalentes no projeto
+
+O projeto não usa a biblioteca MUI: os componentes foram construídos com React + Tailwind seguindo os mesmos padrões de comportamento do Material Design. A tabela mostra o equivalente de cada componente e por que ele resolve um problema de experiência do usuário.
+
+| Componente Material | Componente no projeto | Por que é adequado (experiência do usuário) |
+|---|---|---|
+| **Button** | `Button` ([Button.tsx](../src/components/ui/Button.tsx)): variantes primária, secundária, fantasma e perigo | Uma única ação primária por área deixa claro "o que fazer agora". A variante de perigo (vermelha) avisa antes de ações destrutivas, como sair ou cancelar a matrícula |
+| **CircularProgress** | Propriedade `loading` do `Button` | O botão fica desabilitado e mostra um indicador girando enquanto a operação acontece. O aluno sabe que o clique funcionou e não clica duas vezes (evita salvar ou matricular em dobro) |
+| **TextField** | `Field` ([Field.tsx](../src/components/ui/Field.tsx)) | Rótulo sempre visível, dica de preenchimento e erro no próprio campo, ligado por `aria-describedby`. O aluno sabe exatamente qual campo corrigir e como |
+| **Snackbar** | Toast ([ToastContext.tsx](../src/context/ToastContext.tsx)) | Confirma ações rápidas ("Dados atualizados com sucesso!") sem interromper a tarefa e some sozinho; é anunciado pelo leitor de tela (`aria-live`) |
+| **Alert** | `Alert` ([Misc.tsx](../src/components/ui/Misc.tsx)) e avisos de matrícula | Para erros que exigem ação, o aviso fica fixo até ser resolvido (o toast poderia sumir antes de ser lido) e oferece a saída: **Tentar novamente** |
+| **Dialog** | `Dialog` ([Dialog.tsx](../src/components/ui/Dialog.tsx)) | Interrompe só quando é preciso confirmar algo importante (sair, cancelar matrícula, trocar senha); prende o foco, fecha com Esc e devolve o foco ao botão de origem |
+| **Card** | Classe `card` e `Card` | Agrupa informações relacionadas (um cartão por disciplina, por seção do formulário), o que facilita a leitura rápida |
+| **AppBar** | `Header` + `Sidebar` + `MobileNav` | A navegação muda de forma conforme a tela (menu lateral, trilho de ícones, barra inferior na zona do polegar), mas mantém os mesmos destinos |
+| **Avatar** | `Avatar` | Iniciais do aluno identificam de quem é a conta aberta, algo importante em computadores compartilhados |
+| **Chip** | `Badge` e filtros `Segmented` | Situação acadêmica sempre com ícone + texto (nunca só cor) e filtros com contagem, que mostram o resultado antes do clique |
+| **Switch** | `Switch` (Perfil) | Liga e desliga preferências (tema escuro, avisos por e-mail) com efeito imediato e estado visível |
+
+### Requisitos obrigatórios
+
+| Requisito | Onde ver |
+|---|---|
+| 1. Componentes Material | Tabela acima |
+| 2. Hierarquia visual | Título da página (Manrope 24–32 px) → títulos de cartão (16 px, negrito) → texto (14–16 px) → informações secundárias (12–14 px, cor mais clara); uma ação primária por área |
+| 3. Feedback | Toda ação mostra resposta: "Dados atualizados com sucesso!", "Senha alterada com sucesso!", "Alterações descartadas.", matrícula confirmada com protocolo, erros por campo |
+| 4. Loading | Salvar perfil (1,2 s), entrar, sair, trocar senha e confirmar matrícula: botão desabilitado + indicador girando + texto "Salvando...", "Entrando..." |
+| 5. Responsividade | Capturas em 1366 × 768 (desktop), 768 × 1024 (tablet) e 360 × 800 (smartphone), sem rolagem horizontal nem texto cortado |
+| 6. Dark Mode | Botão de lua/sol no topo e opção no Perfil; todas as cores vêm dos tokens do tema (`tailwind.config.js`), nenhuma cor fixa espalhada nas telas |
+
+### Desafios surpresa
+
+| Desafio | Implementação |
+|---|---|
+| A. Empty State | Notas, Disciplinas e Matrícula mostram ícone, explicação e um botão para limpar os filtros quando a busca não encontra nada |
+| B. Tratamento de erro | Perfil → cartão **Demonstração** → ligar "Simular falha ao salvar". Ao salvar, o botão mostra o carregamento e depois aparece o aviso "Não foi possível salvar." com **Tentar novamente**, sem perder o que foi digitado |
+| C. Confirmação de exclusão | Cancelar a matrícula abre um diálogo de confirmação com botão vermelho; depois de cancelar, o toast oferece **Desfazer**. Sair do sistema também pede confirmação |
+
+### Teste de acessibilidade (teclado)
+
+Com TAB, SHIFT + TAB, ENTER e ESPAÇO é possível fazer todas as tarefas: o primeiro TAB mostra "Pular para o conteúdo"; o foco é sempre visível (anel azul); todos os campos têm rótulo; os botões só com ícone têm nome (`aria-label`, como "Notificações (2 não lidas)"); diálogos e menus fecham com Esc.
+

@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { Search } from 'lucide-react'
+import { AlertCircle, CheckCircle2, Info, Search, X } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { cn } from '../../lib/cn'
 
@@ -24,7 +24,7 @@ export function PageHeader({ eyebrow, title, description, actions }: { eyebrow?:
     <div className="mb-6 flex flex-col gap-4 sm:mb-8 md:flex-row md:items-end md:justify-between">
       <div className="min-w-0">
         {eyebrow && <p className="eyebrow">{eyebrow}</p>}
-        <h1 id="page-title" tabIndex={-1} className="mt-1 text-2xl font-extrabold text-slate-900 outline-none dark:text-white sm:text-3xl">{title}</h1>
+        <h1 id="page-title" tabIndex={-1} className="mt-2 text-2xl font-bold leading-tight text-slate-900 outline-none dark:text-white sm:text-[2rem]">{title}</h1>
         {description && <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600 dark:text-slate-400 sm:text-base">{description}</p>}
       </div>
       {actions && <div className="flex flex-wrap items-center gap-2">{actions}</div>}
@@ -100,7 +100,7 @@ export function Avatar({ text, size = 'md', className }: { text: string; size?: 
     <span
       aria-hidden
       className={cn(
-        'grid shrink-0 place-items-center rounded-full bg-gradient-to-br from-brand-500 to-accent-500 font-display font-bold text-white',
+        'grid shrink-0 place-items-center rounded-full bg-gradient-to-br from-brand-500 to-brand-800 font-display font-bold text-white',
         { sm: 'h-9 w-9 text-xs', md: 'h-10 w-10 text-sm', xl: 'h-24 w-24 text-3xl ring-4 ring-white dark:ring-slate-900' }[size],
         className,
       )}
@@ -115,6 +115,35 @@ export function SearchInput({ value, onChange, placeholder, label, className }: 
     <div className={cn('relative', className)}>
       <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" aria-hidden />
       <input type="search" aria-label={label} value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder} className="input pl-10" />
+    </div>
+  )
+}
+
+const alertTones = {
+  error: { box: 'border-rose-200 bg-rose-50 text-rose-900 dark:border-rose-500/30 dark:bg-rose-500/10 dark:text-rose-100', icon: 'text-rose-700 dark:text-rose-300', Icon: AlertCircle },
+  success: { box: 'border-emerald-200 bg-emerald-50 text-emerald-900 dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-100', icon: 'text-emerald-700 dark:text-emerald-300', Icon: CheckCircle2 },
+  info: { box: 'border-sky-200 bg-sky-50 text-sky-900 dark:border-sky-500/30 dark:bg-sky-500/10 dark:text-sky-100', icon: 'text-sky-700 dark:text-sky-300', Icon: Info },
+}
+
+/**
+ * Aviso fixo na página (equivalente ao Alert do Material). Ao contrário do toast,
+ * fica visível até ser resolvido, por isso é usado para erros que exigem ação.
+ */
+export function Alert({ tone = 'info', title, children, action, onClose, id }: { tone?: keyof typeof alertTones; title: string; children?: ReactNode; action?: ReactNode; onClose?: () => void; id?: string }) {
+  const { box, icon, Icon } = alertTones[tone]
+  return (
+    <div id={id} role={tone === 'error' ? 'alert' : 'status'} tabIndex={-1} className={cn('flex animate-fade-up gap-3 rounded-2xl border p-4 outline-none', box)}>
+      <Icon className={cn('mt-0.5 h-5 w-5 shrink-0', icon)} aria-hidden />
+      <div className="min-w-0 flex-1">
+        <p className="font-semibold">{title}</p>
+        {children && <div className="mt-0.5 text-sm opacity-90">{children}</div>}
+        {action && <div className="mt-3">{action}</div>}
+      </div>
+      {onClose && (
+        <button type="button" onClick={onClose} aria-label="Fechar aviso" className="grid h-8 w-8 shrink-0 place-items-center rounded-full hover:bg-black/5 dark:hover:bg-white/10">
+          <X className="h-4 w-4" aria-hidden />
+        </button>
+      )}
     </div>
   )
 }

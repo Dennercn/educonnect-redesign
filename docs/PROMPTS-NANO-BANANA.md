@@ -1,5 +1,7 @@
 # Imagens com o Nano Banana (Google Gemini)
 
+> **Situação atual:** a foto de destaque do Início e do login (`destaque.jpg` e `login.jpg`) já foi gerada no **Artlist** com o Nano Banana 2; o carrossel usa **fotos gratuitas do Unsplash** (créditos no README). Este guia é opcional: serve para trocar essas fotos por imagens geradas com IA. Ao gerar, salve com o mesmo nome e extensão `.jpg`, ou ajuste a extensão em `src/data/mock.ts` (carrossel) e `src/pages/Login.tsx` (login).
+
 O carrossel da tela **Início** e a tela de **login** já estão programados para exibir imagens. Enquanto os arquivos não existem, aparece um fundo em gradiente com ícone. Basta gerar as imagens e salvá-las com os nomes abaixo para elas aparecerem automaticamente, sem mexer no código.
 
 ## Como gerar
@@ -11,61 +13,61 @@ O carrossel da tela **Início** e a tela de **login** já estão programados par
 
 | Arquivo | Onde aparece | Formato |
 |---|---|---|
-| `public/images/carrossel/01-matricula.png` | Carrossel, slide 1 | Horizontal 16:9 (ex.: 1600 × 900) |
-| `public/images/carrossel/02-monitoria.png` | Carrossel, slide 2 | Horizontal 16:9 |
-| `public/images/carrossel/03-semana-academica.png` | Carrossel, slide 3 | Horizontal 16:9 |
-| `public/images/carrossel/04-biblioteca.png` | Carrossel, slide 4 | Horizontal 16:9 |
-| `public/images/login.png` | Metade esquerda da tela de login (desktop) | Vertical 4:5 (ex.: 1200 × 1500) |
+| `public/images/carrossel/01-matricula.jpg` | Carrossel, slide 1 | Horizontal 16:9 (ex.: 1600 × 900) |
+| `public/images/carrossel/02-monitoria.jpg` | Carrossel, slide 2 | Horizontal 16:9 |
+| `public/images/carrossel/03-semana-academica.jpg` | Carrossel, slide 3 | Horizontal 16:9 |
+| `public/images/carrossel/04-biblioteca.jpg` | Carrossel, slide 4 | Horizontal 16:9 |
+| `public/images/login.jpg` | Metade esquerda da tela de login (desktop) | Vertical 4:5 (ex.: 1200 × 1500) |
 
 > **Dica:** o texto do carrossel fica sobre o **lado esquerdo** da imagem, com uma película escura por cima para garantir a leitura. Por isso os prompts pedem o assunto principal no **lado direito** e nenhum texto escrito na imagem.
 
 ## Estilo comum (já incluído em cada prompt)
 
-> ilustração 3D suave estilo isométrico, cores índigo (#4f46e5) e verde-água (#14b8a6) com tons neutros claros, iluminação suave de estúdio, visual moderno e limpo, sem texto, sem letras, sem logotipos
+> ilustração 3D suave estilo isométrico, paleta sóbria em azul-marinho (#2f50b4), grafite e luz âmbar suave, baixa saturação com tons neutros claros, iluminação suave de estúdio, visual moderno e limpo, sem texto, sem letras, sem logotipos
 
 ## Prompts
 
-### 1. Matrícula: `01-matricula.png`
+### 1. Matrícula: `01-matricula.jpg`
 
 ```
-Ilustração 3D suave estilo isométrico de uma mesa de estudos com um notebook aberto mostrando uma grade de horários colorida, um calendário de mesa e um checklist com marcações de concluído, composição com o assunto principal no lado direito e o lado esquerdo com fundo simples e escuro em degradê índigo, cores índigo (#4f46e5) e verde-água (#14b8a6) com tons neutros, iluminação suave de estúdio, visual moderno e limpo, sem texto, sem letras, sem logotipos, formato 16:9
+Ilustração 3D suave estilo isométrico de uma mesa de estudos com um notebook aberto mostrando uma grade de horários colorida, um calendário de mesa e um checklist com marcações de concluído, composição com o assunto principal no lado direito e o lado esquerdo com fundo simples e escuro em degradê azul-marinho escuro, paleta sóbria em azul-marinho (#2f50b4), grafite e luz âmbar suave, baixa saturação com tons neutros, iluminação suave de estúdio, visual moderno e limpo, sem texto, sem letras, sem logotipos, formato 16:9
 ```
 
-### 2. Monitoria: `02-monitoria.png`
+### 2. Monitoria: `02-monitoria.jpg`
 
 ```
-Ilustração 3D suave estilo isométrico de dois estudantes universitários estilizados estudando juntos em uma mesa de laboratório de informática, um explicando um diagrama de árvore e estrutura de dados em um quadro, composição com o assunto principal no lado direito e o lado esquerdo com fundo simples e escuro em degradê verde-água, cores índigo (#4f46e5) e verde-água (#14b8a6), iluminação suave, visual moderno e acolhedor, sem texto, sem letras, sem logotipos, formato 16:9
+Ilustração 3D suave estilo isométrico de dois estudantes universitários estilizados estudando juntos em uma mesa de laboratório de informática, um explicando um diagrama de árvore e estrutura de dados em um quadro, composição com o assunto principal no lado direito e o lado esquerdo com fundo simples e escuro em degradê azul-marinho escuro, paleta sóbria em azul-marinho (#2f50b4), grafite e luz âmbar suave, baixa saturação, iluminação suave, visual moderno e acolhedor, sem texto, sem letras, sem logotipos, formato 16:9
 ```
 
-### 3. Semana Acadêmica de Tecnologia: `03-semana-academica.png`
+### 3. Semana Acadêmica de Tecnologia: `03-semana-academica.jpg`
 
 ```
-Ilustração 3D suave estilo isométrico de um auditório universitário moderno com um palco, um telão com gráficos abstratos e pequenas pessoas estilizadas na plateia, luzes de evento em tons violeta e magenta, composição com o assunto principal no lado direito e o lado esquerdo com fundo escuro em degradê violeta, visual vibrante, moderno e limpo, sem texto, sem letras, sem logotipos, formato 16:9
+Ilustração 3D suave estilo isométrico de um auditório universitário moderno com um palco, um telão com gráficos abstratos e pequenas pessoas estilizadas na plateia, luzes de evento em tons azul e âmbar, composição com o assunto principal no lado direito e o lado esquerdo com fundo escuro em degradê azul-marinho, visual vibrante, moderno e limpo, sem texto, sem letras, sem logotipos, formato 16:9
 ```
 
-### 4. Biblioteca digital: `04-biblioteca.png`
+### 4. Biblioteca digital: `04-biblioteca.jpg`
 
 ```
-Ilustração 3D suave estilo isométrico de um tablet e um smartphone flutuando com livros digitais saindo da tela, prateleiras de livros estilizadas ao fundo e pequenas estrelas de luz, composição com o assunto principal no lado direito e o lado esquerdo com fundo simples e escuro em degradê azul, cores azul-céu, índigo (#4f46e5) e verde-água (#14b8a6), iluminação noturna suave, visual moderno e limpo, sem texto, sem letras, sem logotipos, formato 16:9
+Ilustração 3D suave estilo isométrico de um tablet e um smartphone flutuando com livros digitais saindo da tela, prateleiras de livros estilizadas ao fundo e pequenas estrelas de luz, composição com o assunto principal no lado direito e o lado esquerdo com fundo simples e escuro em degradê azul, paleta sóbria em azul-marinho (#2f50b4) e grafite, iluminação noturna suave, visual moderno e limpo, sem texto, sem letras, sem logotipos, formato 16:9
 ```
 
-### 5. Tela de login: `login.png`
+### 5. Tela de login: `login.jpg`
 
 ```
-Ilustração 3D suave estilo isométrico, em formato vertical, de um campus universitário moderno ao entardecer com prédios de vidro, árvores, estudantes estilizados caminhando com mochilas e linhas de conexão luminosas ligando os prédios como uma rede, céu em degradê índigo (#4f46e5) para verde-água (#14b8a6), parte inferior da imagem mais escura e simples para receber texto por cima, visual moderno e limpo, sem texto, sem letras, sem logotipos, formato vertical 4:5
+Ilustração 3D suave estilo isométrico, em formato vertical, de um campus universitário moderno ao entardecer com prédios de vidro, árvores, estudantes estilizados caminhando com mochilas e linhas de conexão luminosas ligando os prédios como uma rede, céu azul-marinho ao entardecer, parte inferior da imagem mais escura e simples para receber texto por cima, visual moderno e limpo, sem texto, sem letras, sem logotipos, formato vertical 4:5
 ```
 
 ## Cuidados
 
 - **Não use** pessoas reais, marcas, logotipos de faculdades reais nem texto dentro da imagem (a IA costuma errar letras).
 - Se a imagem ficar muito clara do lado esquerdo, peça um ajuste: *"deixe o lado esquerdo mais escuro e vazio"*.
-- Arquivos muito grandes deixam a página lenta. Se passar de ~500 KB, comprima em [squoosh.app](https://squoosh.app) (pode manter o `.png` ou trocar para `.webp`; se trocar, ajuste a extensão em `src/data/mock.ts`).
+- Arquivos muito grandes deixam a página lenta. Se passar de ~500 KB, comprima em [squoosh.app](https://squoosh.app) (pode manter o `.jpg` ou trocar para `.webp`; se trocar, ajuste a extensão em `src/data/mock.ts`).
 - Mencione na entrega que as imagens foram **geradas com IA (Nano Banana / Google Gemini)**.
 
 ## Logotipo
 
-O logotipo novo (livro aberto com três pontos conectados, em gradiente índigo → verde-água) foi desenhado em **SVG** ([`src/components/layout/Logo.tsx`](../src/components/layout/Logo.tsx) e [`public/favicon.svg`](../public/favicon.svg)). Ele fica nítido em qualquer tamanho e tem versão para fundo escuro. Se mesmo assim quiser uma variação feita no Nano Banana para comparar, use:
+O logotipo novo (livro aberto com três pontos conectados, em gradiente azul (#4466c8 → #1c2c5e)) foi desenhado em **SVG** ([`src/components/layout/Logo.tsx`](../src/components/layout/Logo.tsx) e [`public/favicon.svg`](../public/favicon.svg)). Ele fica nítido em qualquer tamanho e tem versão para fundo escuro. Se mesmo assim quiser uma variação feita no Nano Banana para comparar, use:
 
 ```
-Logotipo minimalista para um portal acadêmico chamado EduConnect: um livro aberto branco com três pontos conectados por linhas acima dele, formando uma rede, dentro de um quadrado de cantos arredondados com degradê de índigo (#4f46e5) para verde-água (#0d9488), design plano vetorial, fundo branco, sem texto
+Logotipo minimalista para um portal acadêmico chamado EduConnect: um livro aberto branco com três pontos conectados por linhas acima dele, formando uma rede, dentro de um quadrado de cantos arredondados com degradê de azul (#4466c8) para azul-marinho (#1c2c5e), design plano vetorial, fundo branco, sem texto
 ```

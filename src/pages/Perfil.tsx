@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import type { FormEvent, ReactNode } from 'react'
-import { BadgeCheck, Bell, Building2, CalendarDays, GraduationCap, Home, IdCard, KeyRound, Lock, Mail, MapPin, Moon, Phone, Save, ShieldCheck, Undo2, User } from 'lucide-react'
+import { BadgeCheck, Bell, Building2, CalendarDays, GraduationCap, Home, IdCard, KeyRound, Lock, Mail, MapPin, Moon, Phone, RotateCw, Save, ShieldCheck, Undo2, User, WifiOff } from 'lucide-react'
 import { useApp } from '../context/AppContext'
 import { useToast } from '../context/ToastContext'
 import { useLocalStorage } from '../hooks/useLocalStorage'
@@ -12,7 +12,7 @@ import type { Profile } from '../types'
 import { Button } from '../components/ui/Button'
 import { Dialog } from '../components/ui/Dialog'
 import { Field } from '../components/ui/Field'
-import { Avatar, Card, PageHeader, ProgressBar } from '../components/ui/Misc'
+import { Alert, Avatar, Card, PageHeader, ProgressBar } from '../components/ui/Misc'
 
 type Errors = Partial<Record<keyof Profile, string>>
 
@@ -51,6 +51,9 @@ export function Perfil() {
   const [saving, setSaving] = useState(false)
   const [passwordOpen, setPasswordOpen] = useState(false)
   const [emailNotifications, setEmailNotifications] = useLocalStorage('educonnect-email-notifications', true)
+  // Desafio B (tratamento de erro): liga uma falha simulada no salvamento, para demonstrar o aviso de erro
+  const [simulateFailure, setSimulateFailure] = useLocalStorage('educonnect-simular-falha', false)
+  const [saveError, setSaveError] = useState(false)
 
   const dirty = (Object.keys(form) as (keyof Profile)[]).some(k => form[k] !== profile[k])
 
@@ -84,7 +87,16 @@ export function Perfil() {
       return
     }
     setSaving(true)
+    setSaveError(false)
     await new Promise(r => setTimeout(r, 1200))
+    if (simulateFailure) {
+      // Falha: nada é perdido. O formulário continua preenchido e o aviso explica o que fazer.
+      setSaving(false)
+      setSaveError(true)
+      notify('Não foi possível salvar. Tente novamente.', 'error')
+      requestAnimationFrame(() => document.getElementById('erro-salvar')?.focus())
+      return
+    }
     const clean = { ...form, email: form.email.trim(), socialName: form.socialName.trim(), address: form.address.trim(), city: form.city.trim() }
     setProfile(clean)
     setForm(clean)
@@ -96,6 +108,7 @@ export function Perfil() {
   const discard = () => {
     setForm(profile)
     setErrors({})
+    setSaveError(false)
     setTouched({})
     notify('Alterações descartadas.', 'info')
   }
@@ -110,7 +123,7 @@ export function Perfil() {
         {/* Identidade acadêmica (somente leitura) */}
         <div className="space-y-6">
           <Card className="overflow-hidden">
-            <div className="h-20 bg-gradient-to-r from-brand-600 to-accent-500" aria-hidden />
+            <div className="h-20 bg-gradient-to-r from-brand-700 to-accent-700" aria-hidden />
             <div className="-mt-12 px-5 pb-5 text-center">
               <Avatar text={initials(displayName)} size="xl" className="mx-auto" />
               <p className="mt-3 font-display text-lg font-bold text-slate-900 dark:text-white">{displayName}</p>
@@ -138,10 +151,29 @@ export function Perfil() {
               <Switch icon={Bell} label="Avisos por e-mail" description="Notas publicadas e prazos de matrícula." checked={emailNotifications} onChange={() => { setEmailNotifications(v => !v); notify(emailNotifications ? 'Avisos por e-mail desativados.' : 'Avisos por e-mail ativados.', 'info') }} />
             </div>
           </Card>
+
+          <Card className="p-5">
+            <h2 className="text-base font-bold text-slate-900 dark:text-white">Demonstração</h2>
+            <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">Para testar o tratamento de erro sem desligar a internet.</p>
+            <div className="mt-4">
+              <Switch icon={WifiOff} label="Simular falha ao salvar" description="Os próximos salvamentos falham como se a conexão tivesse caído." checked={simulateFailure} onChange={() => { setSimulateFailure(v => !v); notify(simulateFailure ? 'Falha simulada desligada.' : 'Falha simulada ligada. Altere um campo e salve.', 'info') }} />
+            </div>
+          </Card>
         </div>
 
         {/* Formulário */}
         <form id="perfil-form" onSubmit={submit} noValidate className="space-y-6">
+          {saveError && (
+            <Alert
+              id="erro-salvar"
+              tone="error"
+              title="Não foi possível salvar."
+              onClose={() => setSaveError(false)}
+              action={<Button type="submit" size="sm" icon={RotateCw} loading={saving}>{saving ? 'Salvando...' : 'Tentar novamente'}</Button>}
+            >
+              Suas alterações continuam no formulário. Verifique sua conexão e tente novamente.
+            </Alert>
+          )}
           <FormSection icon={User} title="Dados pessoais" description="Nome civil, CPF e data de nascimento só podem ser alterados na secretaria.">
             <Field label="Nome completo" icon={Lock} value={form.name} disabled hint="Alteração mediante documento na secretaria." />
             <Field label="Nome social" icon={User} value={form.socialName} onChange={v => set('socialName', v)} onBlur={blur('socialName')} error={err('socialName')} placeholder="Opcional" hint="Será exibido no portal no lugar do nome civil." />

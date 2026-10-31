@@ -215,7 +215,7 @@ export function Matricula({ onNavigate }: { onNavigate: (p: Page) => void }) {
               ))}
             </ul>
             <div className="border-t border-slate-100 p-4 dark:border-slate-800 sm:p-5">
-              <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-500">Sua semana em {targetSemester}</p>
+              <p className="mb-3 text-sm font-semibold text-slate-600 dark:text-slate-400">Sua semana em {targetSemester}</p>
               <WeekStrip chosen={chosen} />
             </div>
           </Card>

@@ -54,28 +54,35 @@ export function Dashboard({ onNavigate }: { onNavigate: (p: Page) => void }) {
 
   return (
     <div className="space-y-6">
-      {/* Boas-vindas + próxima aula */}
-      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-700 via-brand-600 to-brand-500 p-6 text-white shadow-raised shadow-brand-900/20 sm:p-8">
-        <div className="absolute -right-16 -top-20 h-72 w-72 rounded-full bg-white/10 blur-2xl" aria-hidden />
-        <div className="absolute -bottom-24 right-40 h-60 w-60 rounded-full bg-accent-400/25 blur-3xl" aria-hidden />
-        <div className="relative grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
+      {/* Boas-vindas + próxima aula: foto da biblioteca (gerada no Artlist) com película escura para o texto */}
+      <section className="relative isolate overflow-hidden rounded-3xl bg-slate-900 text-white shadow-raised">
+        <img src="/images/destaque.jpg" alt="" className="absolute inset-0 -z-10 h-full w-full object-cover object-[70%_50%]" />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-t from-slate-950/90 via-slate-950/65 to-slate-950/30 sm:bg-gradient-to-r sm:from-slate-950/90 sm:via-slate-950/60 sm:to-slate-950/10" aria-hidden />
+        <div className="grid gap-8 p-6 sm:p-8 lg:min-h-[17rem] lg:grid-cols-[1fr_auto] lg:items-end lg:p-10">
           <div>
-            <p className="text-sm font-medium text-brand-100">{capitalize(now.toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' }))}</p>
-            <h1 id="page-title" tabIndex={-1} className="mt-1 text-2xl font-extrabold outline-none sm:text-3xl">{greeting(now.getHours())}, {firstName}!</h1>
-            <p className="mt-2 max-w-xl text-sm leading-6 text-brand-100 sm:text-base">
-              {student.course} · {student.period} · Semestre {currentSemester.id}.{' '}
+            <p className="text-sm font-medium text-slate-300">{capitalize(now.toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' }))}</p>
+            <h1 id="page-title" tabIndex={-1} className="mt-2 text-3xl font-extrabold leading-tight outline-none sm:text-4xl">
+              {greeting(now.getHours())}, {firstName}!
+            </h1>
+            <p className="mt-3 max-w-xl text-sm leading-6 text-slate-200 sm:text-base">
+              {student.course}, {student.period}, semestre {currentSemester.id}.{' '}
               {attention.length ? `${attention.length} disciplina${attention.length > 1 ? 's precisam' : ' precisa'} da sua atenção.` : 'Tudo em dia por aqui.'}
             </p>
           </div>
           {next && (
-            <div className="rounded-2xl bg-white/10 p-4 ring-1 ring-white/20 backdrop-blur sm:min-w-80">
-              <p className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-brand-100"><CalendarClock className="h-4 w-4" aria-hidden /> Próxima aula · {next.when}</p>
-              <p className="mt-2 text-lg font-bold">{next.subject.name}</p>
-              <p className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-sm text-brand-50">
+            <button
+              onClick={() => onNavigate('disciplinas')}
+              className="rounded-2xl bg-white/10 p-5 text-left ring-1 ring-white/20 backdrop-blur-md transition-colors hover:bg-white/15 sm:min-w-80"
+            >
+              <span className="flex items-center gap-1.5 text-sm font-medium text-slate-200">
+                <CalendarClock className="h-4 w-4" aria-hidden /> Próxima aula, {next.when.toLowerCase()}
+              </span>
+              <span className="mt-1.5 block font-display text-lg font-bold">{next.subject.name}</span>
+              <span className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm text-slate-200">
                 <span className="inline-flex items-center gap-1.5"><Clock3 className="h-4 w-4" aria-hidden />{next.subject.slot.start}–{next.subject.slot.end}</span>
                 <span className="inline-flex items-center gap-1.5"><MapPin className="h-4 w-4" aria-hidden />{next.subject.room}</span>
-              </p>
-            </div>
+              </span>
+            </button>
           )}
         </div>
       </section>
@@ -91,11 +98,11 @@ export function Dashboard({ onNavigate }: { onNavigate: (p: Page) => void }) {
         </div>
       ) : (
         daysLeft >= 0 && (
-          <div className="flex flex-col gap-4 rounded-2xl border border-amber-200 bg-amber-50 p-4 dark:border-amber-500/30 dark:bg-amber-500/10 sm:flex-row sm:items-center sm:p-5">
+          <div className="card flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:p-5">
             <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-amber-100 text-amber-800 dark:bg-amber-500/20 dark:text-amber-300"><ClipboardList className="h-5 w-5" aria-hidden /></span>
             <div className="flex-1">
-              <p className="font-semibold text-amber-950 dark:text-amber-100">Matrícula {enrollmentPeriod.semester} aberta</p>
-              <p className="mt-0.5 text-sm text-amber-900 dark:text-amber-200/90">
+              <p className="font-semibold text-slate-900 dark:text-white">Matrícula {enrollmentPeriod.semester} aberta</p>
+              <p className="mt-0.5 text-sm text-slate-600 dark:text-slate-400">
                 {daysLeft === 0 ? 'Último dia' : `Faltam ${daysLeft} dias`} · prazo final em {formatDate(enrollmentPeriod.closesAt, { day: '2-digit', month: 'long' })}.
               </p>
             </div>
@@ -164,7 +171,7 @@ export function Dashboard({ onNavigate }: { onNavigate: (p: Page) => void }) {
                   <button onClick={() => onNavigate(e.page)} className="group flex w-full items-center gap-3 rounded-xl p-2.5 text-left transition-colors hover:bg-slate-50 dark:hover:bg-slate-800/60">
                     <span className={cn('flex w-14 shrink-0 flex-col items-center rounded-xl py-2 font-display leading-none', e.urgent ? 'bg-rose-50 text-rose-700 dark:bg-rose-500/15 dark:text-rose-300' : 'bg-brand-50 text-brand-700 dark:bg-brand-500/15 dark:text-brand-300')}>
                       <span className="text-lg font-extrabold">{formatDate(e.date, { day: '2-digit' })}</span>
-                      <span className="mt-1 text-[11px] font-bold uppercase">{formatDate(e.date, { month: 'short' })}</span>
+                      <span className="mt-1 text-[11px] font-semibold">{formatDate(e.date, { month: 'short' })}</span>
                     </span>
                     <span className="min-w-0 flex-1">
                       <span className="block truncate text-sm font-semibold text-slate-900 dark:text-white">{e.title}</span>

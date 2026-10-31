@@ -95,7 +95,7 @@ export function Notas() {
               <table className="w-full text-sm">
                 <caption className="sr-only">Notas do semestre {semester.id}</caption>
                 <thead>
-                  <tr className="border-b border-slate-100 bg-slate-50/80 text-left text-xs font-semibold uppercase tracking-wider text-slate-600 dark:border-slate-800 dark:bg-slate-800/40 dark:text-slate-400">
+                  <tr className="border-b border-slate-100 bg-slate-50/80 text-left text-sm font-semibold text-slate-600 dark:border-slate-800 dark:bg-slate-800/40 dark:text-slate-400">
                     <th scope="col" className="px-5 py-3">Disciplina</th>
                     <th scope="col" className="px-3 py-3 text-center">N1</th>
                     <th scope="col" className="px-3 py-3 text-center">N2</th>
@@ -163,7 +163,7 @@ export function Notas() {
                         <span className="mt-2 block"><SituationBadge value={situation(r)} /></span>
                       </span>
                       <span className="text-right">
-                        <span className="block text-[11px] font-medium uppercase text-slate-500">Média</span>
+                        <span className="block text-xs font-medium text-slate-500">Média</span>
                         <span className="block font-display text-2xl font-extrabold tabular-nums text-slate-900 dark:text-white">{formatGrade(average(r))}</span>
                       </span>
                       <ChevronDown className={cn('mt-1 h-5 w-5 shrink-0 text-slate-500 transition-transform duration-200', open && 'rotate-180')} aria-hidden />
@@ -203,7 +203,7 @@ function Details({ r }: { r: GradeRecord }) {
   return (
     <div className="grid animate-fade-in gap-4 rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900 lg:grid-cols-[1fr_1fr_1.2fr]">
       <div className="space-y-3">
-        <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">Composição da média</p>
+        <p className="text-sm font-semibold text-slate-600 dark:text-slate-400">Composição da média</p>
         {parts.map(([label, v, weight]) => (
           <div key={label}>
             <div className="mb-1 flex justify-between text-xs">
@@ -215,7 +215,7 @@ function Details({ r }: { r: GradeRecord }) {
         ))}
       </div>
       <div className="space-y-3">
-        <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">Frequência</p>
+        <p className="text-sm font-semibold text-slate-600 dark:text-slate-400">Frequência</p>
         <p className="font-display text-2xl font-bold tabular-nums text-slate-900 dark:text-white">{r.attendance}%</p>
         <ProgressBar value={r.attendance} marker={MIN_ATTENDANCE} tone={r.attendance < MIN_ATTENDANCE ? 'danger' : r.attendance < MIN_ATTENDANCE + 5 ? 'warning' : 'success'} label="Frequência" />
         <p className="text-xs text-slate-600 dark:text-slate-400">
@@ -230,7 +230,7 @@ function Details({ r }: { r: GradeRecord }) {
             <p className="text-amber-900 dark:text-amber-200"><strong>Não é possível atingir {PASSING_GRADE},0 na N2.</strong> Procure o(a) professor(a) para orientação sobre a recuperação.</p>
           ) : (
             <>
-              <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">Meta para a N2</p>
+              <p className="text-sm font-semibold text-slate-600 dark:text-slate-400">Meta para a N2</p>
               <p className="mt-1 font-display text-3xl font-extrabold tabular-nums text-brand-700 dark:text-brand-300">{formatGrade(Math.ceil(need * 10) / 10)}</p>
               <p className="mt-1 text-slate-600 dark:text-slate-400">é a nota mínima na N2 para fechar com média {PASSING_GRADE},0.</p>
             </>

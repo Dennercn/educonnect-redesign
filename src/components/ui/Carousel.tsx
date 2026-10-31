@@ -109,7 +109,7 @@ export function Carousel({ slides, onNavigate, label = 'Destaques' }: { slides: 
                 </>
               )}
               {/* Película escura: garante contraste do texto branco sobre qualquer imagem */}
-              <div className="absolute inset-0 bg-gradient-to-r from-slate-950/85 via-slate-950/55 to-slate-950/0" aria-hidden />
+              <div className={cn('absolute inset-0', hasImage ? 'bg-gradient-to-t from-slate-950/90 via-slate-950/70 to-slate-950/30 sm:bg-gradient-to-r sm:from-slate-950/85 sm:via-slate-950/55 sm:to-slate-950/0' : 'bg-gradient-to-r from-black/30 via-black/10 to-transparent')} aria-hidden />
 
               <div className={cn('relative flex h-full max-w-xl flex-col justify-end p-6 pb-14 text-white sm:p-8 sm:pb-16', active && 'animate-fade-up')}>
                 <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold ring-1 ring-white/25 backdrop-blur">
@@ -121,7 +121,7 @@ export function Carousel({ slides, onNavigate, label = 'Destaques' }: { slides: 
                   <button
                     onClick={() => onNavigate(s.cta!.page)}
                     tabIndex={active ? 0 : -1}
-                    className="mt-4 inline-flex h-10 w-fit items-center gap-2 rounded-xl bg-white px-4 text-sm font-semibold text-slate-900 transition hover:bg-brand-50 active:scale-[.98]"
+                    className="mt-4 inline-flex h-10 w-fit items-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-slate-900 transition hover:bg-brand-50 active:scale-[.98]"
                   >
                     {s.cta.label} <ArrowRight className="h-4 w-4" aria-hidden />
                   </button>

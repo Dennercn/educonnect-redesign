@@ -19,10 +19,10 @@ export function MobileNav({ page, onNavigate }: { page: Page; onNavigate: (p: Pa
                 aria-current={active ? 'page' : undefined}
                 className={cn(
                   'flex h-16 w-full flex-col items-center justify-center gap-1 text-[11px] font-medium transition-colors',
-                  active ? 'text-brand-700 dark:text-brand-300' : 'text-slate-600 dark:text-slate-400',
+                  active ? 'font-semibold text-slate-900 dark:text-white' : 'text-slate-600 dark:text-slate-400',
                 )}
               >
-                <span className={cn('grid h-8 w-14 place-items-center rounded-full transition-all duration-200', active ? 'bg-brand-100 dark:bg-brand-500/20' : 'scale-90')}>
+                <span className={cn('grid h-8 w-14 place-items-center rounded-full transition-all duration-200', active ? 'bg-brand-100 text-brand-800 dark:bg-brand-500/20 dark:text-brand-200' : 'scale-90')}>
                   <Icon className="h-5 w-5" aria-hidden />
                 </span>
                 {short}

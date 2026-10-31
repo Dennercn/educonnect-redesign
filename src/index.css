@@ -16,6 +16,7 @@
   body {
     @apply min-w-[320px] font-sans;
   }
+  /* Manrope nos títulos; Figtree no restante do texto */
   h1, h2, h3 {
     @apply font-display tracking-tight;
   }
@@ -23,14 +24,18 @@
   :focus-visible {
     @apply outline-none ring-2 ring-brand-500 ring-offset-2 ring-offset-white dark:ring-brand-400 dark:ring-offset-slate-950;
   }
+  /* Títulos recebem foco por código ao trocar de tela (leitor de tela); não precisam do anel visual */
+  [tabindex='-1']:focus-visible {
+    @apply ring-0 ring-offset-0;
+  }
   ::selection {
-    @apply bg-brand-200 text-brand-950;
+    @apply bg-brand-100 text-brand-950;
   }
 }
 
 @layer components {
   .card {
-    @apply min-w-0 rounded-2xl border border-slate-200/80 bg-white shadow-card dark:border-slate-800 dark:bg-slate-900 dark:shadow-none;
+    @apply min-w-0 rounded-2xl border border-slate-200 bg-white shadow-card dark:border-slate-800 dark:bg-slate-900 dark:shadow-none;
   }
   .input {
     @apply w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-500
@@ -43,8 +48,16 @@
     @apply border-rose-500 focus:border-rose-500 focus:ring-rose-500/15;
   }
   .eyebrow {
-    @apply text-xs font-semibold uppercase tracking-[.14em] text-brand-600 dark:text-brand-400;
+    @apply text-sm font-semibold text-brand-600 dark:text-brand-300;
   }
+}
+
+/* Quando a barra "Alterações não salvas" está na tela, os toasts sobem para não ficar por cima dela */
+body:has([aria-label='Alterações não salvas']) .toast-region {
+  bottom: 10rem;
+}
+@media (min-width: 1024px) {
+  body:has([aria-label='Alterações não salvas']) .toast-region { bottom: 6rem; }
 }
 
 @layer utilities {
